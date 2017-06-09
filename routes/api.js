@@ -9,7 +9,7 @@ router.get('/:resource', (req, res, next) => {
   let resource = req.params.resource;
   let controller = controllers[resource];
 
-  // check for invalid resource request
+  // validate resource request
   if (controller === undefined) {
     // TODO CHECK IF IS OK THIS FORMAT
     return res.status(500).json({
@@ -18,13 +18,24 @@ router.get('/:resource', (req, res, next) => {
     });
   }
 
-  controller.find(req.query, (err, results) => {
-    if (err) {
-      return res.status(500).json({message:'fail', err: err});
-    } else {
-      return res.status(200).json({message: 'success', body: results});
-    }
-  });
+  if (req.query._id !== undefined) {
+    controller.findById(req.query._id, (err, results) => {
+      if (err) {
+        return res.status(500).json({message:'fail', err: 'Invalid id'});
+      } else {
+        return res.status(200).json({message: 'success', body: results});
+      }
+    });
+  } else {
+    req.query = {};
+    controller.find(req.query, (err, results) => {
+      if (err) {
+        return res.status(500).json({message:'fail', err: 'Not Found!'});
+      } else {
+        return res.status(200).json({message: 'success', body: results});
+      }
+    });
+  }
 
 });
 ///////////////////////////////////////////////////
@@ -35,10 +46,8 @@ router.post('/:resource/:method', (req, res, next) => {
   let method     = req.params.method;
   let controller = controllers[resource];
 
-
-  // check for invalid resource request
+  // validate resource and method requests
   if (controller === undefined) {
-    // TODO CHECK IF IS OK THIS FORMAT
     return res.status(500).json({
       message: 'fail',
       err: `Invalid resource request : ${resource}`
@@ -52,30 +61,41 @@ router.post('/:resource/:method', (req, res, next) => {
 
   switch (method) {
     case 'create':
-      res.json({message: "create"});
-    break;
-    case 'find':
-      if (req.query.id === undefined) {
-        res.json({message:"find"});
-      } else {
-        res.json({message:"findById"});
-      }
+      controller.create(req.body, (err, results) => {
+        if (err) {
+          return res.status(500).json({message: 'fail', err: err});
+        } else {
+          return res.status(200).json({message: 'success', result: results});
+        }
+      });
     break;
     case 'update':
-      res.json({message:"update"});
+      if (req.query._id !== undefined) {
+        controller.update(req.query, req.body, {new: true}, (err, results) => {
+          if (err) {
+            return res.status(500).json({message: 'fail', err: 'Not found!'});
+          } else {
+            return res.status(200).json({message: 'success', result: results});
+          }
+        })
+      } else {
+        return res.status(500).json({message: 'fail', err: 'missing id'});
+      }
     break;
     case 'destroy':
-      res.json({message:"destroy"});
+      if (req.query._id !== undefined) {
+        controller.destroy(req.query, (err, results) => {
+          if (err) {
+            return res.status(500).json({message: 'fail', err: 'Not found!'});
+          } else {
+            return res.status(200).json({message: 'success', result: results});
+          }
+        })
+      } else {
+        return res.status(500).json({message: 'fail', err: 'missing id'});
+      }
     break;
   }
-/*  controller.create(req.body, (err, results) => {
-    if (err) {
-      return res.status(500).json({message: 'fail', err: err});
-    } else {
-      return res.status(200).json({message: 'success', result: results});
-    }
-  });*/
-
 });
 ///////////////////////////////////////////////////
 

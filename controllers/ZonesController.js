@@ -1,4 +1,4 @@
-const Zones  = require('../models/ZonesModel');
+const Zones  = require('../models/zonesModel');
 
 
 module.exports = {
@@ -7,13 +7,13 @@ module.exports = {
       this.errorHandler(err,docs, cb);
     })
   },
-  findById (id, cb) {
-    Zones.findById(id, (err, docs) => {
+  findById (query, cb) {
+    Zones.findById(query, (err, docs) => {
       this.errorHandler(err,docs, cb);
     })
   },
-  update (id, query, cb) {
-    Zones.findByIdAndUpdate(id, {$set: {query}}, {new: true}, (err, docs) => {
+  update (query, update, options, cb) {
+    Zones.findByIdAndUpdate(query, update, options, (err, docs) => {
       this.errorHandler(err,docs, cb);
     })
   },
@@ -24,8 +24,8 @@ module.exports = {
       this.errorHandler(err,docs, cb);
     })
   },
-  destroy (id, cb) {
-    Zones.remove(id, (err, docs) => {
+  destroy (query, cb) {
+    Zones.findOneAndRemove(query, (err, docs) => {
       this.errorHandler(err,docs, cb);
     })
   },
@@ -37,6 +37,7 @@ module.exports = {
     } else {
       return cb(null, docs);
     }
-  }
+  },
+  controller: 'Zones'
   /////////////////////////
 };

@@ -1,4 +1,4 @@
-const Comments  = require('../models/CommentsModel');
+const Comments  = require('../models/commentsModel');
 
 
 module.exports = {
@@ -7,13 +7,13 @@ module.exports = {
       this.errorHandler(err,docs, cb);
     })
   },
-  findById (id, cb) {
-    Comments.findById(id, (err, docs) => {
+  findById (query, cb) {
+    Comments.findById(query, (err, docs) => {
       this.errorHandler(err,docs, cb);
     })
   },
-  update (id, query, cb) {
-    Comments.findByIdAndUpdate(id, {$set: {query}}, {new: true}, (err, docs) => {
+  update (query, update, options, cb) {
+    Comments.findByIdAndUpdate(query, update, options, (err, docs) => {
       this.errorHandler(err,docs, cb);
     })
   },
@@ -24,8 +24,8 @@ module.exports = {
       this.errorHandler(err,docs, cb);
     })
   },
-  destroy (id, cb) {
-    Comments.remove(id, (err, docs) => {
+  destroy (query, cb) {
+    Comments.findOneAndRemove(query, (err, docs) => {
       this.errorHandler(err,docs, cb);
     })
   },
@@ -37,6 +37,7 @@ module.exports = {
     } else {
       return cb(null, docs);
     }
-  }
+  },
+  controller: 'Comments'
   /////////////////////////
 };
