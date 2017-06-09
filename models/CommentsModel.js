@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../db/mongoDB');
 
 const CommentSchema = new mongoose.Schema({
   username:{

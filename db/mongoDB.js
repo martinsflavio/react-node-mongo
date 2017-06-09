@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI);
+mongoose.Promise = Promise;
 
-const db = mongoose.connection;
+const db = mongoose;
 
-db.on('error', err => {
+db.connection.on('error', err => {
   console.log('Mongoose Error: ', err);
 });
 
-db.once('open', () => {
+db.connection.once('open', () => {
   console.log('Mongoose connection successful.');
 });
 

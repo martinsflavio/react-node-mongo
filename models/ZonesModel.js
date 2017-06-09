@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
+const mongoose = require('../db/mongoDB');
 
 const ZoneSchema = new mongoose.Schema({
   name : {
     type: String,
     default: ''
   },
-  timestamp : {
-    type: Date,
-    default: Date.now
-  },
   zipCodes : {
     type: Array,
     default: []
+  },
+  timestamp : {
+    type: Date,
+    default: Date.now
   }
 });
 
