@@ -12,8 +12,8 @@ module.exports = {
       this.errorHandler(err,docs, cb);
     })
   },
-  update (query, update, options, cb) {
-    Zones.findByIdAndUpdate(query, update, options, (err, docs) => {
+  update (query, update, cb) {
+    Zones.findByIdAndUpdate(query, update, {new: true}, (err, docs) => {
       this.errorHandler(err,docs, cb);
     })
   },
