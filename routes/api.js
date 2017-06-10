@@ -23,7 +23,7 @@ router.get('/:resource', (req, res, next) => {
       if (err) {
         return res.status(500).json({message:'fail', err: 'Invalid id'});
       } else {
-        return res.status(200).json({message: 'success', body: results});
+        return res.status(200).json({message: 'success', commentsBox: results});
       }
     });
   } else {
@@ -32,7 +32,7 @@ router.get('/:resource', (req, res, next) => {
       if (err) {
         return res.status(500).json({message:'fail', err: 'Not Found!'});
       } else {
-        return res.status(200).json({message: 'success', body: results});
+        return res.status(200).json({message: 'success', commentsBox: results});
       }
     });
   }
@@ -60,7 +60,7 @@ router.post('/:resource/:method', (req, res, next) => {
   }
 
   if (method === 'create') {
-    controller.create(req.body, (err, results) => {
+    controller.create(req.commentsBox, (err, results) => {
       if (err) {
         return res.status(500).json({message: 'fail', err: err});
       } else {
@@ -94,7 +94,7 @@ router.put('/:resource/:method', (req, res, next) => {
 
   if (method === 'update') {
     if (req.query._id !== undefined) {
-      controller.update(req.query, req.body, (err, results) => {
+      controller.update(req.query, req.commentsBox, (err, results) => {
         if (err) {
           return res.status(500).json({message: 'fail', err: 'Not found!'});
         } else {

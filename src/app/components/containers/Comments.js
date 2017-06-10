@@ -1,5 +1,5 @@
 import React from "react";
-import styles  from  "../styles";
+import styles  from  "../layout/styles";
 import Comment from "../presentation/Comment";
 
 class Comments extends React.Component {

@@ -12,16 +12,17 @@ const config = {
   },
   module: {
     loaders: [
-      {
-        test: /\.js?/,
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel',
         include: SRC_DIR,
-        loader: "babel-loader",
         query: {
-          presets: ["react", "es2015", "stage-2"]
-        }
-      }
+          presets: ['react', 'es2015', 'stage-0']
+        } }
     ]
-  }
+  },
+  /*plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ]*/
 };
 
 module.exports = config;

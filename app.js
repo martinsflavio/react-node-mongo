@@ -3,7 +3,7 @@ const express       = require('express'),
       favicon       = require('serve-favicon'),
       logger        = require('morgan'),
       cookieParser  = require('cookie-parser'),
-      bodyParser    = require('body-parser');
+      bodyParser    = require('commentsBox-parser');
 
 
 const app = express();
